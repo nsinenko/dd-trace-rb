@@ -54,6 +54,10 @@ RSpec.describe 'DI implicit enablement integration' do
     )
   end
 
+  let(:remote) do
+    instance_double(Datadog::Core::Remote::Component, add_products: nil, remove_products: nil)
+  end
+
   let(:components) do
     # Stand-in for Core::Configuration::Components. handle_rc_enablement
     # reaches the component via Datadog.send(:components).dynamic_instrumentation
@@ -64,6 +68,7 @@ RSpec.describe 'DI implicit enablement integration' do
       dynamic_instrumentation: component,
       telemetry: telemetry,
       symbol_database: symbol_database,
+      remote: remote,
     )
   end
 

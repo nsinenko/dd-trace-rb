@@ -39,6 +39,16 @@ module Datadog
           []
         end
 
+        def deferred_products(settings)
+          if settings.respond_to?(:symbol_database) &&
+              settings.symbol_database.using_default?(:enabled) &&
+              Datadog::SymbolDatabase.supported_runtime?
+            [PRODUCT]
+          else
+            []
+          end
+        end
+
         # Create receivers for remote configuration.
         # @return [Array<Receiver>] Array of receivers
         def receivers(_telemetry)
