@@ -39,7 +39,7 @@ Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: diff_comma
 
 Style/TrailingCommaInHashLiteral:
-  Enabled: false
+  EnforcedStyleForMultiline: diff_comma
 
 Layout/LeadingCommentSpace:
   Enabled: false

@@ -46,7 +46,7 @@ module Datadog
                 query: sql,
                 prepared_name: prepared_name,
                 database: db_opts[:database],
-                host: db_opts[:host]
+                host: db_opts[:host],
               }
             end
 
