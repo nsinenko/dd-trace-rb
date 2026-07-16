@@ -42,7 +42,7 @@ DI_WITH_EXT = %w[
 # Add new instrumentation libraries here as they gain DSM support
 DSM_ENABLED_LIBRARIES = [
   :kafka,
-  :karafka
+  :karafka,
 ].freeze
 
 # rubocop:disable Metrics/BlockLength
@@ -344,7 +344,7 @@ namespace :spec do
     :sucker_punch,
     :suite,
     :trilogy,
-    :waterdrop
+    :waterdrop,
   ].each do |contrib|
     desc "" # "Explicitly hiding from `rake -T`"
     RSpec::Core::RakeTask.new(contrib) do |t, args|
@@ -381,7 +381,7 @@ namespace :spec do
       :faraday,
       :excon,
       :rest_client,
-      :integration
+      :integration,
     ]
 
     # Datadog AppSec main specs
@@ -410,7 +410,7 @@ namespace :spec do
       :graphql,
       :faraday,
       :excon,
-      :rest_client
+      :rest_client,
     ].each do |contrib|
       desc "" # "Explicitly hiding from `rake -T`"
       RSpec::Core::RakeTask.new(contrib) do |t, args|

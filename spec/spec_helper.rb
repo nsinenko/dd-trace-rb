@@ -282,7 +282,7 @@ RSpec.configure do |config|
             caller.map { |l| "\t#{l}" }.join("\n"),
             "Thread Backtrace:",
             backtrace.map { |l| "\t#{l}" }.join("\n"),
-            "\n"
+            "\n",
           ]
         end.join("\n")
 

@@ -36,7 +36,7 @@ Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
 
 Style/TrailingCommaInArrayLiteral:
-  Enabled: false
+  EnforcedStyleForMultiline: diff_comma
 
 Style/TrailingCommaInHashLiteral:
   Enabled: false
