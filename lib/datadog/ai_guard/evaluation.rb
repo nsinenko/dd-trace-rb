@@ -13,7 +13,7 @@ module Datadog
             trace.keep!
             trace.set_tag(
               Tracing::Metadata::Ext::Distributed::TAG_DECISION_MAKER,
-              Tracing::Sampling::Ext::Decision::AI_GUARD
+              Tracing::Sampling::Ext::Decision::AI_GUARD,
             )
             trace.set_tag(Ext::EVENT_TAG, true)
             trace.set_tag(Ext::TRACE_EXECUTED_TAG, "1")
@@ -51,7 +51,7 @@ module Datadog
                 attack_categories: result.tags,
                 sds: result.sds_findings,
                 tag_probs: result.tag_probabilities
-              }
+              },
             )
 
             if allow_raise && (result.deny? || result.abort?) && result.blocking_enabled?

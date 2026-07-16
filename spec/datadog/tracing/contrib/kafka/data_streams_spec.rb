@@ -130,7 +130,7 @@ RSpec.describe "Kafka Data Streams instrumentation" do
         topic: "test_topic",
         partition: 0,
         offset: 100,
-        headers: {"dd-pathway-ctx-base64" => producer_ctx_b64}
+        headers: {"dd-pathway-ctx-base64" => producer_ctx_b64},
       )
 
       # Set the message for the consumer to yield
@@ -212,7 +212,7 @@ RSpec.describe "Kafka Data Streams instrumentation" do
         topic: "test_topic",
         partition: 0,
         offset: 100,
-        headers: {"dd-pathway-ctx-base64" => "some-context"}
+        headers: {"dd-pathway-ctx-base64" => "some-context"},
       )
 
       consumer.test_message = message

@@ -18,7 +18,7 @@ module Datadog
       :extra_logging,
       :log?,
       :error?,
-      keyword_init: true
+      keyword_init: true,
     )
       def self.build_error(value:, error_code:, error_message:, reason: Ext::ERROR)
         new(
@@ -27,7 +27,7 @@ module Datadog
           error_message: error_message,
           reason: reason,
           error?: true,
-          log?: false
+          log?: false,
         ).freeze
       end
     end

@@ -25,8 +25,15 @@ AllCops:
 # "**/**" ignore list (Layout/LeadingCommentSpace has an extra reason
 # there) so it stays clear which tool is, or is not, enforcing each cop.
 
+# NOTE: `diff_comma` (comma only when the closing delimiter is on its own line)
+# would be the preferred style here, matching TrailingCommaInArray/HashLiteral
+# below. It is unavailable for TrailingCommaInArguments before RuboCop 1.81.0
+# (rubocop/rubocop#10971); this repo is pinned to RuboCop 1.75.x transitively via
+# standard ~> 1.49, so `comma` is the closest supported style. Tighten to
+# `diff_comma` once RuboCop >= 1.81 is available.
+
 Style/TrailingCommaInArguments:
-  Enabled: false
+  EnforcedStyleForMultiline: comma
 
 Style/TrailingCommaInArrayLiteral:
   Enabled: false
