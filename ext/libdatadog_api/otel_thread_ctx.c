@@ -17,7 +17,6 @@
 
 static VALUE native_set(VALUE _self, VALUE trace_id, VALUE span_id, VALUE local_root_span_id);
 static VALUE native_enable(VALUE _self);
-static VALUE native_detach_and_free(VALUE _self);
 static VALUE native_supported_p(VALUE _self);
 static VALUE native_debug_peek(VALUE _self);
 
@@ -26,7 +25,6 @@ void otel_thread_ctx_init(VALUE core_module) {
 
   rb_define_singleton_method(otel_thread_ctx_module, "_native_set", native_set, 3);
   rb_define_singleton_method(otel_thread_ctx_module, "_native_enable", native_enable, 0);
-  rb_define_singleton_method(otel_thread_ctx_module, "_native_detach_and_free", native_detach_and_free, 0);
   rb_define_singleton_method(otel_thread_ctx_module, "_native_supported?", native_supported_p, 0);
   rb_define_singleton_method(otel_thread_ctx_module, "_native_debug_peek", native_debug_peek, 0);
 }
@@ -112,11 +110,6 @@ static void on_fiber_switch(
   publish_context(get_current_fiber_context());
 }
 
-static void detach_and_free_current_record(void) {
-  struct ddog_ThreadContextHandle *ctx = ddog_otel_thread_ctx_detach();
-  if (ctx) ddog_otel_thread_ctx_free(ctx);
-}
-
 // event_data->thread, needed to find the resuming thread's context, exists on
 // Ruby 3.3+ (on 3.2 the event data is void). M:N migration only happens on 3.3+
 // too, so the resume hook is compiled out below that.
@@ -140,6 +133,11 @@ static void on_thread_resumed(
 #endif
 
 #ifdef RUBY_INTERNAL_THREAD_EVENT_EXITED
+static void detach_and_free_current_record(void) {
+  struct ddog_ThreadContextHandle *ctx = ddog_otel_thread_ctx_detach();
+  if (ctx) ddog_otel_thread_ctx_free(ctx);
+}
+
 // Frees the OS-thread record when a Ruby thread exits. In 1:1 the OS thread dies
 // with the Ruby thread, so this reclaims it; under M:N the record is recreated by
 // the next resume on the (shared) OS thread.
@@ -178,14 +176,6 @@ static VALUE native_set(DDTRACE_UNUSED VALUE _self, VALUE trace_id, VALUE span_i
   pack_id_big_endian(local_root_span_id, ctx->local_root_span_id, sizeof(ctx->local_root_span_id));
 
   publish_context(ctx);
-
-  return Qtrue;
-}
-
-// Detaches the thread context record currently attached to the calling
-// thread (if any) and frees it.
-static VALUE native_detach_and_free(VALUE _self) {
-  detach_and_free_current_record();
 
   return Qtrue;
 }
@@ -260,10 +250,6 @@ static VALUE native_set(DDTRACE_UNUSED VALUE _self, DDTRACE_UNUSED VALUE trace_i
 }
 
 static VALUE native_enable(DDTRACE_UNUSED VALUE _self) {
-  return Qfalse;
-}
-
-static VALUE native_detach_and_free(VALUE _self) {
   return Qfalse;
 }
 

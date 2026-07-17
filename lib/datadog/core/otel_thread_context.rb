@@ -23,10 +23,6 @@ module Datadog
         _native_set(trace_id, span_id, local_root_span_id)
       end
 
-      def self.detach!
-        _native_detach_and_free
-      end
-
       # Debug helper: returns a Hash with the fields of the context record currently
       # attached to the calling thread (`trace_id`, `span_id`, `valid`, `attrs`), or
       # `nil` if no context is attached.
