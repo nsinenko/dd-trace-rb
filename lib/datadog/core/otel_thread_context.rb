@@ -13,6 +13,12 @@ module Datadog
         Datadog::Core::LIBDATADOG_API_FAILURE.nil? && _native_supported?
       end
 
+      def self.enable!
+        return false unless supported?
+
+        _native_enable
+      end
+
       def self.set(trace_id:, span_id:, local_root_span_id:)
         _native_set(trace_id, span_id, local_root_span_id)
       end
